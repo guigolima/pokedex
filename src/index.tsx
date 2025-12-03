@@ -1,13 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from '@mui/material/styles'; 
-import { store } from './redux/store';
-import App from './pages/App';
-import theme from './styles/theme';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { ThemeProvider } from "@mui/material/styles";
+import { store } from "./redux/store";
+import App from "./pages/App";
+import { theme } from "./styles/theme";
+import { CssBaseline } from "@mui/material";
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById("root");
 
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
@@ -15,6 +16,7 @@ if (rootElement) {
   root.render(
     <React.StrictMode>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <BrowserRouter>
           <Provider store={store}>
             <App />
