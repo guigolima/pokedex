@@ -2,7 +2,6 @@ import React, { useEffect, useState, useMemo } from "react";
 import { MainLayout } from "../components/templates/MainLayout";
 import { SearchBar } from "../components/molecules/SearchBar";
 import { PokemonGrid } from "../components/organisms/PokemonGrid";
-import { FavoriteGrid } from "../components/organisms/FavoriteGrid";
 import ComparisonView from "../components/organisms/ComparisonView";
 import { LoadingOverlay } from "../components/molecules/LoadingOverlay";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +17,7 @@ import { Pokemon } from "../types/pokemon";
 import PokemonDetailsModal from "../components/molecules/PokemonDetailsModal";
 import PokemonTypeGrid from "../components/organisms/PokemonTypeGrid";
 import useDebounce from "../hooks/useDebounce";
+import FavoriteGrid from "../components/organisms/FavoriteGrid";
 
 const App: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
