@@ -17,7 +17,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({ currentTab, onTabChange }) => {
     <StyledAppBar position="sticky" elevation={3}>
       <Container maxWidth="lg">
         <Toolbar disableGutters sx={{ py: 1 }}>
-          <StyledTitleBox>
+          <StyledTitleBox sx={{ display: { xs: "none", md: "flex" } }}>
             <StyledIcon />
             <Box>
               <StyledTypography variant="h5" component="div">

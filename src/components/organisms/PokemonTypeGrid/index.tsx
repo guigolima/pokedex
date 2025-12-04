@@ -26,7 +26,7 @@ const PokemonTypeGrid: React.FC<{ onTypeSelect?: () => void }> = ({ onTypeSelect
   );
 
   const gridColumns = {
-    xs: "repeat(4, 1fr)",
+    xs: "repeat(3, 1fr)",
     sm: "repeat(6, 1fr)",
     md: "repeat(8, 1fr)",
     lg: "repeat(10, 1fr)",
@@ -42,7 +42,7 @@ const PokemonTypeGrid: React.FC<{ onTypeSelect?: () => void }> = ({ onTypeSelect
         }}
       >
         {allTypes.map((type) => {
-          const typeColor = typeColors[type] || "#607d8b";
+          const typeColor = typeColors[type];
           const isSelected = selectedType === type;
 
           const textColor = "white";

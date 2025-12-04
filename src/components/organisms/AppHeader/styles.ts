@@ -2,13 +2,13 @@ import { styled } from "@mui/material/styles";
 import { AppBar, Typography, TypographyProps, Box } from "@mui/material";
 import CatchingPokemonIcon from "@mui/icons-material/CatchingPokemon";
 
-export const StyledAppBar = styled(AppBar)(({ theme }) => ({
+export const StyledAppBar = styled(AppBar)(() => ({
   marginBottom: 32,
   background: "linear-gradient(135deg, #1976d2 0%, #1565c0 100%)",
   boxShadow: "0 4px 20px 0 rgba(0,0,0,0.12)",
 }));
 
-export const StyledIcon = styled(CatchingPokemonIcon)(({ theme }) => ({
+export const StyledIcon = styled(CatchingPokemonIcon)(() => ({
   fontSize: "2.5rem",
   marginRight: 2,
   color: "rgba(255, 255, 255, 1)",
