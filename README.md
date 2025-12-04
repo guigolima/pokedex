@@ -1,16 +1,65 @@
-# CI&T Tech Challenge
+# Pokedex Application
 
-Hello, we're excited that you've made this far, we are providing you a boilerplate for the technical challenge.
-We've added some dependencies like: React, Redux and Material-ui, but the last one you're free to use
-any UI library that you're comfortable with. Please, write all of your code in English.
+## Getting Started
 
-## Submission Instructions
+### Prerequisites
 
-* Clone the repository.
+- Node.js (v14 or higher)
+- npm or yarn
 
-* Make your changes.
+### Installation
 
-* Send us the repo URL after you're finished.
+1. Clone the repository:
+```bash
+git clone https://github.com/guigolima/pokedex.git
+cd pokedex
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm start
+```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+### Available Scripts
+
+- `npm start` - Runs the app in development mode
+- `npm test` - Launches the test runner in interactive watch mode
+- `npm run build` - Builds the app for production to the `build` folder
+
+## Project Structure
+
+```
+src/
+├── api/                    # API client and request functions
+├── components/             # React components
+│   ├── atoms/             # Basic components (TypeChip, LoadingSpinner, etc.)
+│   ├── molecules/         # Composite components (PokemonCard, SearchBar, etc.)
+│   ├── organisms/         # Complex components (PokemonGrid, AppHeader, etc.)
+│   └── templates/         # Layout components
+├── constants/             # Type colors and other constants
+├── hooks/                 # Custom React hooks (useDebounce)
+├── pages/                 # Page components (App)
+├── redux/                 # Redux store, slices, and state management
+│   └── slices/           # Redux slices (pokemon, favorites, compare, types)
+├── styles/               # Theme configuration
+└── types/                # TypeScript type definitions
+```
+
+## Testing
+
+Run the test suite:
+```bash
+npm test
+```
+
+Press `a` to run all tests, or `q` to quit watch mode.
 
 ## Problem description:
 
