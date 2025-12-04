@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MainLayout } from "../components/templates/MainLayout";
 import { SearchBar } from "../components/molecules/SearchBar";
 import { PokemonGrid } from "../components/organisms/PokemonGrid";
+import { FavoriteGrid } from "../components/organisms/FavoriteGrid";
 import { LoadingOverlay } from "../components/molecules/LoadingOverlay";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPokemonList, fetchNextPage } from "../redux/slices/pokemonSlice";
@@ -16,6 +17,7 @@ const App: React.FC = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
+  const [activeTab, setActiveTab] = useState(0);
 
   const { list, loading, hasMore } = useSelector(
     (state: RootState) => state.pokemon
@@ -40,13 +42,25 @@ const App: React.FC = () => {
     dispatch(fetchNextPage());
   };
 
+  const handleTabChange = (_e: React.SyntheticEvent, newValue: number) => {
+    setActiveTab(newValue);
+  };
+
   return (
-    <MainLayout>
+    <MainLayout currentTab={activeTab} onTabChange={handleTabChange}>
       <SearchBar value={searchTerm} onChange={setSearchTerm} />
       <PokemonTypeGrid />
-      <PokemonGrid pokemons={list} onPokemonClick={handlePokemonClick} />
-      {hasMore && (
-        <LoadMoreButton handleLoadMore={handleLoadMore} loading={loading} />
+      {activeTab === 0 && (
+        <>
+          <PokemonGrid pokemons={list} onPokemonClick={handlePokemonClick} />
+          {hasMore && (
+            <LoadMoreButton handleLoadMore={handleLoadMore} loading={loading} />
+          )}
+        </>
+      )}
+
+      {activeTab === 1 && (
+        <FavoriteGrid onPokemonClick={handlePokemonClick} />
       )}
       <LoadingOverlay isOpen={loading === "pending"} />
       <PokemonDetailsModal

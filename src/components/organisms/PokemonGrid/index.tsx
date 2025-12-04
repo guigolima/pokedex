@@ -2,7 +2,6 @@ import React from "react";
 import { Typography, Box, Grid } from "@mui/material";
 import { PokemonCard } from "../../molecules/PokemonCard";
 import { PokemonGridProps } from "./types";
-import { Pokemon } from "../../../types/pokemon";
 
 export const PokemonGrid: React.FC<PokemonGridProps> = ({
   pokemons,
@@ -17,23 +16,12 @@ export const PokemonGrid: React.FC<PokemonGridProps> = ({
       </Box>
     );
   }
-  
+
   return (
     <Grid container spacing={3}>
       {pokemons.map((pokemon, index) => (
         <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={index}>
-          <PokemonCard
-            pokemon={pokemon}
-            onPokemonClick={onPokemonClick}
-            isFavorite={false}
-            isInTeam={false}
-            onToggleFavorite={function (pokemon: Pokemon): void {
-              throw new Error("Function not implemented.");
-            }}
-            onToggleTeam={function (pokemon: Pokemon): void {
-              throw new Error("Function not implemented.");
-            }}
-          />
+          <PokemonCard pokemon={pokemon} onPokemonClick={onPokemonClick} />
         </Grid>
       ))}
     </Grid>

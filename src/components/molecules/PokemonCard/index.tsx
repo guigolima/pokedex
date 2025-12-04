@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   CardActionArea,
   CardContent,
@@ -8,9 +9,9 @@ import {
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import CatchingPokemonIcon from "@mui/icons-material/CatchingPokemon";
-import { Pokemon } from "../../../types/pokemon";
 import { TypeChip } from "../../atoms/TypeChip";
+import { toggleFavorite } from "../../../redux/slices/favoritesSlice";
+import { RootState, AppDispatch } from "../../../redux/store";
 import {
   StyledCard,
   StyledActionButtonStack,
@@ -18,24 +19,15 @@ import {
   StyledIconButton,
 } from "./styles";
 import { getColorFromUrl } from "../../../utils/colors";
-
-interface PokemonCardProps {
-  pokemon: Pokemon;
-  isFavorite: boolean;
-  isInTeam: boolean;
-  onPokemonClick: (id: number) => void;
-  onToggleFavorite: (pokemon: Pokemon) => void;
-  onToggleTeam: (pokemon: Pokemon) => void;
-}
+import { PokemonCardProps } from "./types";
 
 export const PokemonCard: React.FC<PokemonCardProps> = ({
   pokemon,
-  isFavorite,
-  isInTeam,
   onPokemonClick,
-  onToggleFavorite,
-  onToggleTeam,
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { favoriteIds } = useSelector((state: RootState) => state.favorites);
+  const isFavorite = favoriteIds.includes(pokemon.id);
   const [pokemonColor, setPokemonColor] = useState<string | null>(null);
 
   const getPokemonColor = async () => {
@@ -49,6 +41,11 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    dispatch(toggleFavorite(pokemon.id));
+  };
+
   return (
     <StyledCard
       elevation={2}
@@ -57,20 +54,7 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
       <StyledActionButtonStack direction="row" spacing={1}>
         <StyledIconButton
           size="small"
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleTeam(pokemon);
-          }}
-          color={isInTeam ? "secondary" : "default"}
-        >
-          <CatchingPokemonIcon />
-        </StyledIconButton>
-        <StyledIconButton
-          size="small"
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleFavorite(pokemon);
-          }}
+          onClick={handleToggleFavorite}
           color="error"
         >
           {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
@@ -108,7 +92,7 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
             flexWrap="wrap"
             gap={0.5}
           >
-            {pokemon.types?.map((type) => (
+            {pokemon.types?.map((type: any) => (
               <TypeChip key={type.type?.name} type={type.type?.name || ""} />
             ))}
           </Stack>

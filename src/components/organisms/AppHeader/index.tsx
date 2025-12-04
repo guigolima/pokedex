@@ -27,7 +27,6 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
             >
               <Tab label="All Pokemon" />
               <Tab label="Favorites" />
-              <Tab label={`My Team (${teamCount}/6)`} />
             </Tabs>
           </Box>
         </Toolbar>

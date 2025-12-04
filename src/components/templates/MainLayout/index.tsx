@@ -4,20 +4,26 @@ import { AppHeader } from "../../organisms/AppHeader";
 import { MainLayoutProps } from "./types";
 import { StyledBox } from "./styles";
 
-export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-  const [currentTab, setCurrentTab] = useState(0);
+export const MainLayout: React.FC<MainLayoutProps> = ({
+  children,
+  currentTab: propTab,
+  onTabChange: propOnTabChange,
+  teamCount = 0,
+}) => {
+  const [internalTab, setInternalTab] = useState(0);
+
+  const currentTab = typeof propTab === "number" ? propTab : internalTab;
+
+  const handleTabChange = propOnTabChange
+    ? propOnTabChange
+    : (_e: React.SyntheticEvent, newValue: number) => setInternalTab(newValue);
 
   return (
     <StyledBox>
       <AppHeader
         currentTab={currentTab}
-        onTabChange={function (
-          _event: React.SyntheticEvent,
-          newValue: number
-        ): void {
-          setCurrentTab(newValue);
-        }}
-        teamCount={0}
+        onTabChange={handleTabChange}
+        teamCount={teamCount}
       />
       <Container component="main" maxWidth="lg" sx={{ flexGrow: 1, pb: 4 }}>
         {children}
