@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getPokemonList, getPokemonDetails } from "../../api/requests";
+import {
+  getPokemonList,
+  getPokemonDetails,
+  getPokemonsByType,
+} from "../../api/requests";
 import { Pokemon } from "../../types/pokemon";
 
 export interface PokemonState {
@@ -70,6 +74,26 @@ export const fetchPokemonByName = createAsyncThunk<
   }
 });
 
+export const fetchPokemonsByType = createAsyncThunk<
+  FetchPokemonPayload,
+  string,
+  { rejectValue: string }
+>("pokemon/fetchByType", async (type: string, { rejectWithValue }) => {
+  try {
+    const response = await getPokemonsByType(type);
+    // response.pokemon is an array of { pokemon: { name, url } }
+    const results = (response?.pokemon || []).map((p: any) => p.pokemon);
+    const detailed = await fetchDetailedPokemon(results);
+    return {
+      pokemon: detailed,
+      nextUrl: null,
+      hasMore: false,
+    };
+  } catch (error: any) {
+    return rejectWithValue(error.message || "Failed to fetch by type");
+  }
+});
+
 export const fetchNextPage = createAsyncThunk<
   FetchPokemonPayload,
   void,
@@ -135,8 +159,7 @@ const pokemonSlice = createSlice({
       .addCase(fetchNextPage.rejected, (state, action) => {
         state.loading = "failed";
         state.error = action.payload || "Unknown error";
-      });
-    builder
+      })
       .addCase(fetchPokemonByName.pending, (state) => {
         state.loading = "pending";
         state.error = null;
@@ -151,6 +174,24 @@ const pokemonSlice = createSlice({
       .addCase(fetchPokemonByName.rejected, (state, action) => {
         state.loading = "failed";
         state.error = action.payload || "Pokemon not found";
+        state.list = [];
+        state.nextUrl = null;
+        state.hasMore = false;
+      })
+      .addCase(fetchPokemonsByType.pending, (state) => {
+        state.loading = "pending";
+        state.error = null;
+      })
+      .addCase(fetchPokemonsByType.fulfilled, (state, action) => {
+        state.loading = "succeeded";
+        state.list = action.payload.pokemon;
+        state.nextUrl = action.payload.nextUrl;
+        state.hasMore = action.payload.hasMore;
+        state.error = null;
+      })
+      .addCase(fetchPokemonsByType.rejected, (state, action) => {
+        state.loading = "failed";
+        state.error = action.payload || "Failed to fetch by type";
         state.list = [];
         state.nextUrl = null;
         state.hasMore = false;

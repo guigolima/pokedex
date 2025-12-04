@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Box, Chip, Container } from "@mui/material";
 import { RootState, AppDispatch } from "../../../redux/store";
 import { fetchAllTypes, selectType } from "../../../redux/slices/typeSlice";
+import { fetchPokemonsByType } from "../../../redux/slices/pokemonSlice";
 import { typeColors } from "../../../constants/typeColors";
 
 const PokemonTypeGrid: React.FC<{ onTypeSelect?: () => void }> = ({ onTypeSelect }) => {
@@ -18,9 +19,10 @@ const PokemonTypeGrid: React.FC<{ onTypeSelect?: () => void }> = ({ onTypeSelect
   const handleTypeClick = useCallback(
     (type: string) => {
       dispatch(selectType(type));
+      dispatch(fetchPokemonsByType(type));
       if (onTypeSelect) onTypeSelect();
     },
-    [dispatch]
+    [dispatch, onTypeSelect]
   );
 
   const gridColumns = {
@@ -64,7 +66,7 @@ const PokemonTypeGrid: React.FC<{ onTypeSelect?: () => void }> = ({ onTypeSelect
                 backgroundColor: isSelected ? typeColor : "transparent",
                 borderColor: typeColor,
                 "&:hover": {
-                  backgroundColor: isSelected ? typeColor : `${typeColor}30`, // Light hover effect
+                  backgroundColor: isSelected ? typeColor : `${typeColor}30`,
                   boxShadow: isSelected ? `0 0 0 2px ${typeColor}` : "none",
                   transform: isSelected ? "scale(1.03)" : "scale(1.01)",
                 },
