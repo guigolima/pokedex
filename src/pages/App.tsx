@@ -3,6 +3,7 @@ import { MainLayout } from "../components/templates/MainLayout";
 import { SearchBar } from "../components/molecules/SearchBar";
 import { PokemonGrid } from "../components/organisms/PokemonGrid";
 import { FavoriteGrid } from "../components/organisms/FavoriteGrid";
+import ComparisonView from "../components/organisms/ComparisonView";
 import { LoadingOverlay } from "../components/molecules/LoadingOverlay";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -95,6 +96,7 @@ const App: React.FC = () => {
       )}
 
       {activeTab === 1 && <FavoriteGrid onPokemonClick={handlePokemonClick} />}
+      {activeTab === 2 && <ComparisonView />}
       <LoadingOverlay isOpen={loading === "pending"} />
       <PokemonDetailsModal
         open={!!selectedPokemon}

@@ -9,8 +9,10 @@ import {
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import { TypeChip } from "../../atoms/TypeChip";
 import { toggleFavorite } from "../../../redux/slices/favoritesSlice";
+import { toggleCompare } from "../../../redux/slices/compareSlice";
 import { RootState, AppDispatch } from "../../../redux/store";
 import {
   StyledCard,
@@ -27,7 +29,9 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
 }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { favoriteIds } = useSelector((state: RootState) => state.favorites);
+  const { compareIds } = useSelector((state: RootState) => state.compare);
   const isFavorite = favoriteIds.includes(pokemon.id);
+  const isComparing = compareIds.includes(pokemon.id);
   const [pokemonColor, setPokemonColor] = useState<string | null>(null);
 
   const getPokemonColor = async () => {
@@ -46,12 +50,24 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
     dispatch(toggleFavorite(pokemon.id));
   };
 
+  const handleToggleCompare = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    dispatch(toggleCompare(pokemon.id));
+  };
+
   return (
     <StyledCard
       elevation={2}
       style={{ backgroundColor: pokemonColor || "#fff" }}
     >
       <StyledActionButtonStack direction="row" spacing={1}>
+        <StyledIconButton
+          size="small"
+          onClick={handleToggleCompare}
+          color={isComparing ? "primary" : "default"}
+        >
+          <CompareArrowsIcon />
+        </StyledIconButton>
         <StyledIconButton
           size="small"
           onClick={handleToggleFavorite}
