@@ -1,5 +1,5 @@
 export interface PokemonGridProps {
-  pokemons: PokemonSummary[];
+  pokemons: Pokemon[];
   isLoading: boolean;
   onPokemonClick: (id: number) => void;
 }

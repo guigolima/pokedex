@@ -22,12 +22,6 @@ export const StyledImageContainerBox = styled(Box)({
   alignItems: "center",
 });
 
-export const StyledTypeChipBox = styled(Box)({
-  display: "flex",
-  justifyContent: "center",
-  flexWrap: "wrap",
-});
-
 export const StyledIconButton = styled(IconButton)({
   backgroundColor: "rgba(255,255,255,0.7)",
 });

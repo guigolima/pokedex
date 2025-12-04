@@ -2,32 +2,35 @@ import React, { useEffect, useState } from "react";
 import { MainLayout } from "../components/templates/MainLayout";
 import { SearchBar } from "../components/molecules/SearchBar";
 import { PokemonGrid } from "../components/organisms/PokemonGrid";
-import { getPokemonList } from "../api/requests";
-import { dummyPokemons } from "../mocks/mockPokemonList";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPokemonList } from "../redux/slices/pokemonSlice";
+import { RootState, AppDispatch } from "../redux/store";
 
 const App: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
 
-  const filteredPokemons = dummyPokemons.filter((p) =>
-    p.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const [searchTerm, setSearchTerm] = useState("");
+  
+  const { list, loading, error } = useSelector(
+    (state: RootState) => state.pokemon
   );
+
+  useEffect(() => {
+    dispatch(fetchPokemonList());
+  }, [dispatch]);
 
   const handlePokemonClick = (id: number) => {
     console.log(`Maps to details for ID: ${id}`);
   };
 
-  useEffect(() => {
-    getPokemonList().then((data) => {
-      console.log(data);
-    });
-  }, []);
-
   return (
     <MainLayout>
       <SearchBar value={searchTerm} onChange={setSearchTerm} />
+      {loading === "pending" && <div>Loading...</div>}
+      {error && <div>Error: {error}</div>}
       <PokemonGrid
-        pokemons={filteredPokemons}
-        isLoading={false}
+        pokemons={list}
+        isLoading={loading === "pending"}
         onPokemonClick={handlePokemonClick}
       />
     </MainLayout>

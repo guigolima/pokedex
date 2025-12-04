@@ -8,23 +8,21 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import CatchingPokemonIcon from "@mui/icons-material/CatchingPokemon";
-import { TypeChip } from "../../atoms/TypeChip";
-import { PokemonSummary } from "../../../types/pokemon";
+import { Pokemon } from "../../../types/pokemon";
 import {
   StyledCard,
   StyledActionButtonStack,
   StyledImageContainerBox,
-  StyledTypeChipBox,
   StyledIconButton,
 } from "./styles";
 
 interface PokemonCardProps {
-  pokemon: PokemonSummary;
+  pokemon: Pokemon;
   isFavorite: boolean;
   isInTeam: boolean;
   onPokemonClick: (id: number) => void;
-  onToggleFavorite: (pokemon: PokemonSummary) => void;
-  onToggleTeam: (pokemon: PokemonSummary) => void;
+  onToggleFavorite: (pokemon: Pokemon) => void;
+  onToggleTeam: (pokemon: Pokemon) => void;
 }
 
 export const PokemonCard: React.FC<PokemonCardProps> = ({
@@ -65,12 +63,14 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
         sx={{ flexGrow: 1, pt: 2 }}
       >
         <StyledImageContainerBox>
-          <CardMedia
-            component="img"
-            image={pokemon.imageUrl}
-            alt={pokemon.name}
-            sx={{ objectFit: "contain", maxHeight: "100%", width: "auto" }}
-          />
+          {pokemon.sprites.front_default && (
+            <CardMedia
+              component="img"
+              image={pokemon.sprites.front_default}
+              alt={pokemon.name}
+              sx={{ objectFit: "contain", maxHeight: "100%", width: "auto" }}
+            />
+          )}
         </StyledImageContainerBox>
         <CardContent>
           <Typography
@@ -82,11 +82,6 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
           >
             {pokemon.name}
           </Typography>
-          <StyledTypeChipBox>
-            {pokemon.types.map((type: string) => (
-              <TypeChip key={type} type={type} />
-            ))}
-          </StyledTypeChipBox>
         </CardContent>
       </CardActionArea>
     </StyledCard>

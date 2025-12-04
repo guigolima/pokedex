@@ -55,9 +55,10 @@ But if you do opt to write in Typescript, don’t type everything as any.
 ## Suggestions:
 
 * Plot charts with the Pokemons attributes (our suggestion is https://www.amcharts.com/)
+
 * Create a comparison table between the Pokemon attributes (our suggestion is
   https://www.ag-grid.com/ sorting, reordering, etc…)
-* Unit tests using https://testing-library.com/docs/react-testing-library/intro/ and jest
-* Any knowledge in automated tests software (cypress, webdriver I/O, selenium)
 
-Go Catch ’Em All!! Pokemon trainer
+* Unit tests using https://testing-library.com/docs/react-testing-library/intro/ and jest
+
+* Any knowledge in automated tests software (cypress, webdriver I/O, selenium)
