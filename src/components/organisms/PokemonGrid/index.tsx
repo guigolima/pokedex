@@ -1,9 +1,9 @@
 import React from "react";
 import { Typography, Box, Grid } from "@mui/material";
-import { PokemonCard } from "../../molecules/PokemonCard";
 import { PokemonGridProps } from "./types";
+import PokemonCard from "../../molecules/PokemonCard";
 
-export const PokemonGrid: React.FC<PokemonGridProps> = ({
+const PokemonGrid: React.FC<PokemonGridProps> = ({
   pokemons,
   onPokemonClick,
 }) => {
@@ -27,3 +27,5 @@ export const PokemonGrid: React.FC<PokemonGridProps> = ({
     </Grid>
   );
 };
+
+export default PokemonGrid;

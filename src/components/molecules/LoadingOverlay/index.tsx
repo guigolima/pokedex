@@ -1,12 +1,9 @@
 import React from "react";
-import { Box } from "@mui/material";
-import { LoadingSpinner } from "../../atoms/LoadingSpinner";
+import Box from "@mui/material/Box";
+import LoadingSpinner from "../../atoms/LoadingSpinner";
+import { LoadingOverlayProps } from "./types";
 
-interface LoadingOverlayProps {
-  isOpen: boolean;
-}
-
-export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ isOpen }) => {
+const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ isOpen }) => {
   if (!isOpen) return null;
 
   return (

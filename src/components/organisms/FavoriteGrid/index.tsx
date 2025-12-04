@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Box, Typography, Grid, Skeleton } from "@mui/material";
 import { RootState } from "../../../redux/store";
-import { PokemonCard } from "../../molecules/PokemonCard";
 import { getPokemonDetails } from "../../../api/requests";
 import { Pokemon } from "../../../types/pokemon";
+import PokemonCard from "../../molecules/PokemonCard";
 
 interface FavoriteGridProps {
   onPokemonClick: (id: number) => void;

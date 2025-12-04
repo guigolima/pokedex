@@ -13,14 +13,15 @@ import HeightIcon from "@mui/icons-material/Height";
 import ScaleIcon from "@mui/icons-material/Scale";
 import StarIcon from "@mui/icons-material/Star";
 import { PokemonDetailsModalProps } from "./types";
-import { TypeChip } from "../../atoms/TypeChip";
 import {
+  StatBox,
   StyledAbilitiesBox,
   StyledDetailsBox,
   StyledDialogTitle,
 } from "./styles";
+import TypeChip from "../../atoms/TypeChip";
 
-export const PokemonDetailsModal: React.FC<PokemonDetailsModalProps> = ({
+const PokemonDetailsModal: React.FC<PokemonDetailsModalProps> = ({
   open,
   pokemon,
   onClose,
@@ -161,15 +162,7 @@ export const PokemonDetailsModal: React.FC<PokemonDetailsModalProps> = ({
                         {baseStat}
                       </Typography>
                     </Box>
-                    <Box
-                      sx={{
-                        width: "100%",
-                        height: 8,
-                        bgcolor: "action.hover",
-                        borderRadius: 1,
-                        overflow: "hidden",
-                      }}
-                    >
+                    <StatBox>
                       <Box
                         sx={{
                           height: "100%",
@@ -180,7 +173,7 @@ export const PokemonDetailsModal: React.FC<PokemonDetailsModalProps> = ({
                           bgcolor: "primary.main",
                         }}
                       />
-                    </Box>
+                    </StatBox>
                   </Box>
                 );
               })}

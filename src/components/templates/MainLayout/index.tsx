@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { Container } from "@mui/material";
-import { AppHeader } from "../../organisms/AppHeader";
 import { MainLayoutProps } from "./types";
 import { StyledBox } from "./styles";
+import AppHeader from "../../organisms/AppHeader";
 
-export const MainLayout: React.FC<MainLayoutProps> = ({
+const MainLayout: React.FC<MainLayoutProps> = ({
   children,
   currentTab: propTab,
   onTabChange: propOnTabChange,
-  teamCount = 0,
 }) => {
   const [internalTab, setInternalTab] = useState(0);
 
@@ -23,7 +22,6 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
       <AppHeader
         currentTab={currentTab}
         onTabChange={handleTabChange}
-        teamCount={teamCount}
       />
       <Container component="main" maxWidth="lg" sx={{ flexGrow: 1, pb: 4 }}>
         {children}
@@ -31,3 +29,5 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
     </StyledBox>
   );
 };
+
+export default MainLayout;

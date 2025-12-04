@@ -10,7 +10,6 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
-import { TypeChip } from "../../atoms/TypeChip";
 import { toggleFavorite } from "../../../redux/slices/favoritesSlice";
 import { toggleCompare } from "../../../redux/slices/compareSlice";
 import { RootState, AppDispatch } from "../../../redux/store";
@@ -22,8 +21,9 @@ import {
 } from "./styles";
 import { getColorFromUrl } from "../../../utils/colors";
 import { PokemonCardProps } from "./types";
+import TypeChip from "../../atoms/TypeChip";
 
-export const PokemonCard: React.FC<PokemonCardProps> = ({
+const PokemonCard: React.FC<PokemonCardProps> = ({
   pokemon,
   onPokemonClick,
 }) => {
@@ -76,7 +76,6 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
           {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </StyledIconButton>
       </StyledActionButtonStack>
-
       <CardActionArea
         onClick={() => onPokemonClick(pokemon.id)}
         sx={{ flexGrow: 1, pt: 2 }}
@@ -117,3 +116,5 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
     </StyledCard>
   );
 };
+
+export default PokemonCard;

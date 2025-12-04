@@ -2,7 +2,7 @@ import React from "react";
 import { StyledTextField } from "./styles";
 import { SearchBarProps } from "./types";
 
-export const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => {
   return (
     <StyledTextField
       fullWidth
@@ -13,3 +13,5 @@ export const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => {
     />
   );
 };
+
+export default SearchBar;

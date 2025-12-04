@@ -5,10 +5,9 @@ import { RootState } from "../../../redux/store";
 import { AppHeaderProps } from "./types";
 import { StyledAppBar, StyledIcon, StyledTitleTypography } from "./styles";
 
-export const AppHeader: React.FC<AppHeaderProps> = ({
+const AppHeader: React.FC<AppHeaderProps> = ({
   currentTab,
   onTabChange,
-  teamCount,
 }) => {
   const { compareIds } = useSelector((state: RootState) => state.compare);
   return (
@@ -44,3 +43,5 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
     </StyledAppBar>
   );
 };
+
+export default AppHeader;

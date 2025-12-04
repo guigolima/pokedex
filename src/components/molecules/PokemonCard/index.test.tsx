@@ -3,9 +3,9 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import { PokemonCard } from "./index";
 import favoritesReducer from "../../../redux/slices/favoritesSlice";
 import compareReducer from "../../../redux/slices/compareSlice";
+import PokemonCard from ".";
 
 const mockPokemon = {
   id: 1,

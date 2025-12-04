@@ -4,7 +4,7 @@ import "@testing-library/jest-dom";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import compareReducer from "../../../redux/slices/compareSlice";
-import { AppHeader } from "./index";
+import AppHeader from ".";
 
 const testStore = configureStore({
   reducer: {

@@ -19,7 +19,7 @@ import { getPokemonDetails } from "../../../api/requests";
 import { Pokemon } from "../../../types/pokemon";
 import { clearCompare } from "../../../redux/slices/compareSlice";
 import EmptyComparisonMessage from "../../molecules/EmptyComparisonMessage";
-import { PokemonCard } from "../../molecules/PokemonCard";
+import PokemonCard from "../../molecules/PokemonCard";
 
 const ComparisonView: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

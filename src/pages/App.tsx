@@ -1,15 +1,11 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { MainLayout } from "../components/templates/MainLayout";
-import { SearchBar } from "../components/molecules/SearchBar";
-import { PokemonGrid } from "../components/organisms/PokemonGrid";
-import ComparisonView from "../components/organisms/ComparisonView";
-import { LoadingOverlay } from "../components/molecules/LoadingOverlay";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchPokemonList,
   fetchNextPage,
   fetchPokemonByName,
 } from "../redux/slices/pokemonSlice";
+import ComparisonView from "../components/organisms/ComparisonView";
 import { clearSelectedType } from "../redux/slices/typeSlice";
 import { RootState, AppDispatch } from "../redux/store";
 import LoadMoreButton from "../components/atoms/LoadMoreButton";
@@ -18,6 +14,10 @@ import PokemonDetailsModal from "../components/molecules/PokemonDetailsModal";
 import PokemonTypeGrid from "../components/organisms/PokemonTypeGrid";
 import useDebounce from "../hooks/useDebounce";
 import FavoriteGrid from "../components/organisms/FavoriteGrid";
+import SearchBar from "../components/molecules/SearchBar";
+import MainLayout from "../components/templates/MainLayout";
+import PokemonGrid from "../components/organisms/PokemonGrid";
+import LoadingOverlay from "../components/molecules/LoadingOverlay";
 
 const App: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

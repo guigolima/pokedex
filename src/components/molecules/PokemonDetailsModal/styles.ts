@@ -24,3 +24,11 @@ export const StyledAbilitiesBox = styled(Box)({
   justifyContent: "flex-start",
   gap: 2,
 });
+
+export const StatBox = styled(Box)({
+  width: "100%",
+  height: 8,
+  bgcolor: "action.hover",
+  borderRadius: 1,
+  overflow: "hidden",
+});

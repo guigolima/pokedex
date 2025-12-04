@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { LoadingOverlay } from "./index";
+import LoadingOverlay from ".";
 
 describe("LoadingOverlay Component", () => {
   it("renders loading overlay", () => {
