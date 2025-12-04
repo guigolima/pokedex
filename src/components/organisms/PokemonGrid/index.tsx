@@ -1,19 +1,13 @@
 import React from "react";
 import { Typography, Box, Grid } from "@mui/material";
-import { LoadingSpinner } from "../../atoms/LoadingSpinner";
 import { PokemonCard } from "../../molecules/PokemonCard";
 import { PokemonGridProps } from "./types";
 import { Pokemon } from "../../../types/pokemon";
 
 export const PokemonGrid: React.FC<PokemonGridProps> = ({
   pokemons,
-  isLoading,
   onPokemonClick,
 }) => {
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
   if (pokemons.length === 0) {
     return (
       <Box textAlign="center" mt={4}>
