@@ -10,7 +10,7 @@ interface FavoriteGridProps {
   onPokemonClick: (id: number) => void;
 }
 
-export const FavoriteGrid: React.FC<FavoriteGridProps> = ({ onPokemonClick }) => {
+const FavoriteGrid: React.FC<FavoriteGridProps> = ({ onPokemonClick }) => {
   const { favoriteIds } = useSelector((state: RootState) => state.favorites);
   const [favorites, setFavorites] = React.useState<Pokemon[]>([]);
   const [loading, setLoading] = React.useState(false);
@@ -70,3 +70,5 @@ export const FavoriteGrid: React.FC<FavoriteGridProps> = ({ onPokemonClick }) =>
     </Grid>
   );
 };
+
+export default FavoriteGrid;

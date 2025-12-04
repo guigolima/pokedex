@@ -81,10 +81,10 @@ const App: React.FC = () => {
 
   return (
     <MainLayout currentTab={activeTab} onTabChange={handleTabChange}>
-      <SearchBar value={searchTerm} onChange={setSearchTerm} />
-      <PokemonTypeGrid onTypeSelect={() => setSearchTerm("")} />
       {activeTab === 0 && (
         <>
+          <SearchBar value={searchTerm} onChange={setSearchTerm} />
+          <PokemonTypeGrid onTypeSelect={() => setSearchTerm("")} />
           <PokemonGrid
             pokemons={filteredList}
             onPokemonClick={handlePokemonClick}
