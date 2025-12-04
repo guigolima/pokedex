@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   CardActionArea,
   CardContent,
   CardMedia,
   Typography,
   Stack,
-  Box,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -18,6 +17,7 @@ import {
   StyledImageContainerBox,
   StyledIconButton,
 } from "./styles";
+import { getColorFromUrl } from "../../../utils/colors";
 
 interface PokemonCardProps {
   pokemon: Pokemon;
@@ -36,8 +36,24 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
   onToggleFavorite,
   onToggleTeam,
 }) => {
+  const [pokemonColor, setPokemonColor] = useState<string | null>(null);
+
+  const getPokemonColor = async () => {
+    if (!pokemon.sprites.front_default) return;
+    const color = await getColorFromUrl(pokemon.sprites.front_default);
+    setPokemonColor(color || "#fff");
+  };
+
+  useEffect(() => {
+    getPokemonColor();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <StyledCard elevation={2}>
+    <StyledCard
+      elevation={2}
+      style={{ backgroundColor: pokemonColor || "#fff" }}
+    >
       <StyledActionButtonStack direction="row" spacing={1}>
         <StyledIconButton
           size="small"
@@ -71,7 +87,7 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
               component="img"
               image={pokemon.sprites.front_default}
               alt={pokemon.name}
-              sx={{ objectFit: "contain", maxHeight: "100%", width: "auto" }}
+              sx={{ objectFit: "contain", width: "auto" }}
             />
           )}
         </StyledImageContainerBox>
@@ -85,7 +101,13 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
           >
             {pokemon.name}
           </Typography>
-          <Stack direction="row" spacing={0.5} justifyContent="center" flexWrap="wrap" gap={0.5}>
+          <Stack
+            direction="row"
+            spacing={0.5}
+            justifyContent="center"
+            flexWrap="wrap"
+            gap={0.5}
+          >
             {pokemon.types?.map((type) => (
               <TypeChip key={type.type?.name} type={type.type?.name || ""} />
             ))}
