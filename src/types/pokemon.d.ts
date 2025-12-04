@@ -30,6 +30,15 @@ interface Type {
 interface Sprites {
   front_default: string | null;
   back_default: string | null;
+  other?: {
+    "official-artwork"?: {
+      front_default?: string | null;
+      front_shiny?: string | null;
+    };
+    dream_world?: {
+      front_default?: string | null;
+    };
+  };
 }
 
 export interface Pokemon {

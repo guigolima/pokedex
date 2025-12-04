@@ -4,11 +4,14 @@ import {
   CardContent,
   CardMedia,
   Typography,
+  Stack,
+  Box,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import CatchingPokemonIcon from "@mui/icons-material/CatchingPokemon";
 import { Pokemon } from "../../../types/pokemon";
+import { TypeChip } from "../../atoms/TypeChip";
 import {
   StyledCard,
   StyledActionButtonStack,
@@ -82,6 +85,11 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
           >
             {pokemon.name}
           </Typography>
+          <Stack direction="row" spacing={0.5} justifyContent="center" flexWrap="wrap" gap={0.5}>
+            {pokemon.types?.map((type) => (
+              <TypeChip key={type.type?.name} type={type.type?.name || ""} />
+            ))}
+          </Stack>
         </CardContent>
       </CardActionArea>
     </StyledCard>
