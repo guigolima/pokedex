@@ -3,6 +3,16 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import PokemonDetailsModal from "./index";
 
+jest.mock("../../../api/requests", () => ({
+  getPokemonTypes: jest.fn(() => Promise.resolve([])),
+  getPokemonsByType: jest.fn(() => Promise.resolve({ pokemon: [] })),
+}));
+
+jest.mock("../PokemonStatsChart", () => ({
+  __esModule: true,
+  default: () => <div>Mock Chart</div>,
+}));
+
 const mockPokemon = {
   id: 1,
   name: "bulbasaur",
