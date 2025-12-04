@@ -10,13 +10,13 @@ export interface PokemonState {
   list: Pokemon[];
   loading: "idle" | "pending" | "succeeded" | "failed";
   error: string | null;
-  nextUrl: string | null;
+  offset: number;
+  limit: number;
   hasMore: boolean;
 }
 
 interface FetchPokemonPayload {
   pokemon: Pokemon[];
-  nextUrl: string | null;
   hasMore: boolean;
 }
 
@@ -24,7 +24,8 @@ const initialState: PokemonState = {
   list: [],
   loading: "idle",
   error: null,
-  nextUrl: null,
+  offset: 0,
+  limit: 12,
   hasMore: true,
 };
 
@@ -43,12 +44,11 @@ export const fetchPokemonList = createAsyncThunk<
   { rejectValue: string }
 >("pokemon/fetchList", async (_, { rejectWithValue }) => {
   try {
-    const response = await getPokemonList();
+    const response = await getPokemonList(0, 12);
     const detailed = await fetchDetailedPokemon(response.results);
 
     return {
       pokemon: detailed,
-      nextUrl: response.next,
       hasMore: !!response.next,
     };
   } catch (error: any) {
@@ -66,7 +66,6 @@ export const fetchPokemonByName = createAsyncThunk<
     const pokemon = (detail ? [detail as Pokemon] : []) as Pokemon[];
     return {
       pokemon,
-      nextUrl: null,
       hasMore: false,
     };
   } catch (error: any) {
@@ -81,12 +80,10 @@ export const fetchPokemonsByType = createAsyncThunk<
 >("pokemon/fetchByType", async (type: string, { rejectWithValue }) => {
   try {
     const response = await getPokemonsByType(type);
-    // response.pokemon is an array of { pokemon: { name, url } }
     const results = (response?.pokemon || []).map((p: any) => p.pokemon);
     const detailed = await fetchDetailedPokemon(results);
     return {
       pokemon: detailed,
-      nextUrl: null,
       hasMore: false,
     };
   } catch (error: any) {
@@ -101,22 +98,18 @@ export const fetchNextPage = createAsyncThunk<
 >("pokemon/fetchNextPage", async (_, { rejectWithValue, getState }) => {
   try {
     const state = getState();
-    const { nextUrl } = state.pokemon;
+    const { offset, limit, hasMore } = state.pokemon;
 
-    if (!nextUrl) {
+    if (!hasMore) {
       return rejectWithValue("No more pages available");
     }
 
-    const url = new URL(nextUrl, "https://pokeapi.co");
-    const offset = parseInt(url.searchParams.get("offset") || "0");
-    const limit = parseInt(url.searchParams.get("limit") || "20");
-
-    const response = await getPokemonList(offset, limit);
+    const nextOffset = offset + limit;
+    const response = await getPokemonList(nextOffset, limit);
     const detailed = await fetchDetailedPokemon(response.results);
 
     return {
       pokemon: detailed,
-      nextUrl: response.next,
       hasMore: !!response.next,
     };
   } catch (error: any) {
@@ -137,7 +130,7 @@ const pokemonSlice = createSlice({
       .addCase(fetchPokemonList.fulfilled, (state, action) => {
         state.loading = "succeeded";
         state.list = action.payload.pokemon;
-        state.nextUrl = action.payload.nextUrl;
+        state.offset = 0;
         state.hasMore = action.payload.hasMore;
         state.error = null;
       })
@@ -152,7 +145,7 @@ const pokemonSlice = createSlice({
       .addCase(fetchNextPage.fulfilled, (state, action) => {
         state.loading = "succeeded";
         state.list.push(...action.payload.pokemon);
-        state.nextUrl = action.payload.nextUrl;
+        state.offset = state.offset + state.limit;
         state.hasMore = action.payload.hasMore;
         state.error = null;
       })
@@ -167,7 +160,7 @@ const pokemonSlice = createSlice({
       .addCase(fetchPokemonByName.fulfilled, (state, action) => {
         state.loading = "succeeded";
         state.list = action.payload.pokemon;
-        state.nextUrl = action.payload.nextUrl;
+        state.offset = 0;
         state.hasMore = action.payload.hasMore;
         state.error = null;
       })
@@ -175,7 +168,7 @@ const pokemonSlice = createSlice({
         state.loading = "failed";
         state.error = action.payload || "Pokemon not found";
         state.list = [];
-        state.nextUrl = null;
+        state.offset = 0;
         state.hasMore = false;
       })
       .addCase(fetchPokemonsByType.pending, (state) => {
@@ -185,7 +178,7 @@ const pokemonSlice = createSlice({
       .addCase(fetchPokemonsByType.fulfilled, (state, action) => {
         state.loading = "succeeded";
         state.list = action.payload.pokemon;
-        state.nextUrl = action.payload.nextUrl;
+        state.offset = 0;
         state.hasMore = action.payload.hasMore;
         state.error = null;
       })
@@ -193,7 +186,7 @@ const pokemonSlice = createSlice({
         state.loading = "failed";
         state.error = action.payload || "Failed to fetch by type";
         state.list = [];
-        state.nextUrl = null;
+        state.offset = 0;
         state.hasMore = false;
       });
   },
