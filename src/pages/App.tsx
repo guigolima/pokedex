@@ -51,17 +51,17 @@ const App: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const q = debouncedSearch?.trim();
-    if (q && q.length > 0) {
+    const searchInput = debouncedSearch?.trim();
+    if (searchInput && searchInput.length > 0) {
       dispatch(clearSelectedType());
-      dispatch(fetchPokemonByName(q));
+      dispatch(fetchPokemonByName(searchInput));
     } else {
       dispatch(fetchPokemonList());
     }
   }, [debouncedSearch, dispatch]);
 
   const handlePokemonClick = (id: number) => {
-    const pokemon = list.find((p) => p.id === id);
+    const pokemon = list.find((pokemon) => pokemon.id === id);
     if (pokemon) {
       setSelectedPokemon(pokemon);
     }

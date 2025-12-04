@@ -5,10 +5,7 @@ import { RootState } from "../../../redux/store";
 import { getPokemonDetails } from "../../../api/requests";
 import { Pokemon } from "../../../types/pokemon";
 import PokemonCard from "../../molecules/PokemonCard";
-
-interface FavoriteGridProps {
-  onPokemonClick: (id: number) => void;
-}
+import { FavoriteGridProps } from "./types";
 
 const FavoriteGrid: React.FC<FavoriteGridProps> = ({ onPokemonClick }) => {
   const { favoriteIds } = useSelector((state: RootState) => state.favorites);

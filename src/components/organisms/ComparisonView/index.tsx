@@ -126,9 +126,9 @@ const ComparisonView: React.FC = () => {
                   <TableCell sx={{ fontWeight: "medium" }}>
                     {stat.label}
                   </TableCell>
-                  {comparePokemons.map((pokemon, idx) => {
+                  {comparePokemons.map((pokemon) => {
                     const statData = pokemon.stats?.find(
-                      (s: any) => s.stat?.name === stat.key
+                      (stats: any) => stats.stat?.name === stat.key
                     );
                     const value = statData?.base_stat || 0;
                     const isMax = value === maxValue && maxValue > 0;
