@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { MainLayout } from "../components/templates/MainLayout";
 import { SearchBar } from "../components/molecules/SearchBar";
 import { PokemonGrid } from "../components/organisms/PokemonGrid";
 import { FavoriteGrid } from "../components/organisms/FavoriteGrid";
 import { LoadingOverlay } from "../components/molecules/LoadingOverlay";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPokemonList, fetchNextPage } from "../redux/slices/pokemonSlice";
+import {
+  fetchPokemonList,
+  fetchNextPage,
+  fetchPokemonByName,
+} from "../redux/slices/pokemonSlice";
+import { clearSelectedType } from "../redux/slices/typeSlice";
 import { RootState, AppDispatch } from "../redux/store";
 import LoadMoreButton from "../components/atoms/LoadMoreButton";
 import { Pokemon } from "../types/pokemon";
 import PokemonDetailsModal from "../components/molecules/PokemonDetailsModal";
 import PokemonTypeGrid from "../components/organisms/PokemonTypeGrid";
+import useDebounce from "../hooks/useDebounce";
 
 const App: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -23,9 +29,35 @@ const App: React.FC = () => {
     (state: RootState) => state.pokemon
   );
 
+  const selectedType = useSelector(
+    (state: RootState) => state.types.selectedType
+  );
+
+  const debouncedSearch = useDebounce(searchTerm, 500);
+
+  const filteredList = useMemo(() => {
+    let res = list;
+    if (selectedType) {
+      res = res.filter((pokemon) =>
+        pokemon.types?.some((type) => type.type?.name === selectedType)
+      );
+    }
+    return res;
+  }, [list, selectedType]);
+
   useEffect(() => {
     dispatch(fetchPokemonList());
   }, [dispatch]);
+
+  useEffect(() => {
+    const q = debouncedSearch?.trim();
+    if (q && q.length > 0) {
+      dispatch(clearSelectedType());
+      dispatch(fetchPokemonByName(q));
+    } else {
+      dispatch(fetchPokemonList());
+    }
+  }, [debouncedSearch, dispatch]);
 
   const handlePokemonClick = (id: number) => {
     const pokemon = list.find((p) => p.id === id);
@@ -49,19 +81,20 @@ const App: React.FC = () => {
   return (
     <MainLayout currentTab={activeTab} onTabChange={handleTabChange}>
       <SearchBar value={searchTerm} onChange={setSearchTerm} />
-      <PokemonTypeGrid />
+      <PokemonTypeGrid onTypeSelect={() => setSearchTerm("")} />
       {activeTab === 0 && (
         <>
-          <PokemonGrid pokemons={list} onPokemonClick={handlePokemonClick} />
-          {hasMore && (
+          <PokemonGrid
+            pokemons={filteredList}
+            onPokemonClick={handlePokemonClick}
+          />
+          {!selectedType && !debouncedSearch && hasMore && (
             <LoadMoreButton handleLoadMore={handleLoadMore} loading={loading} />
           )}
         </>
       )}
 
-      {activeTab === 1 && (
-        <FavoriteGrid onPokemonClick={handlePokemonClick} />
-      )}
+      {activeTab === 1 && <FavoriteGrid onPokemonClick={handlePokemonClick} />}
       <LoadingOverlay isOpen={loading === "pending"} />
       <PokemonDetailsModal
         open={!!selectedPokemon}

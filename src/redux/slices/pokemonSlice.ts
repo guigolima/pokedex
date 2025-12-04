@@ -52,6 +52,24 @@ export const fetchPokemonList = createAsyncThunk<
   }
 });
 
+export const fetchPokemonByName = createAsyncThunk<
+  FetchPokemonPayload,
+  string,
+  { rejectValue: string }
+>("pokemon/fetchByName", async (name: string, { rejectWithValue }) => {
+  try {
+    const detail = await getPokemonDetails(name);
+    const pokemon = (detail ? [detail as Pokemon] : []) as Pokemon[];
+    return {
+      pokemon,
+      nextUrl: null,
+      hasMore: false,
+    };
+  } catch (error: any) {
+    return rejectWithValue(error.message || "Not found");
+  }
+});
+
 export const fetchNextPage = createAsyncThunk<
   FetchPokemonPayload,
   void,
@@ -117,6 +135,25 @@ const pokemonSlice = createSlice({
       .addCase(fetchNextPage.rejected, (state, action) => {
         state.loading = "failed";
         state.error = action.payload || "Unknown error";
+      });
+    builder
+      .addCase(fetchPokemonByName.pending, (state) => {
+        state.loading = "pending";
+        state.error = null;
+      })
+      .addCase(fetchPokemonByName.fulfilled, (state, action) => {
+        state.loading = "succeeded";
+        state.list = action.payload.pokemon;
+        state.nextUrl = action.payload.nextUrl;
+        state.hasMore = action.payload.hasMore;
+        state.error = null;
+      })
+      .addCase(fetchPokemonByName.rejected, (state, action) => {
+        state.loading = "failed";
+        state.error = action.payload || "Pokemon not found";
+        state.list = [];
+        state.nextUrl = null;
+        state.hasMore = false;
       });
   },
 });

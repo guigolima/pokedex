@@ -5,7 +5,7 @@ import { RootState, AppDispatch } from "../../../redux/store";
 import { fetchAllTypes, selectType } from "../../../redux/slices/typeSlice";
 import { typeColors } from "../../../constants/typeColors";
 
-const PokemonTypeGrid = () => {
+const PokemonTypeGrid: React.FC<{ onTypeSelect?: () => void }> = ({ onTypeSelect }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { allTypes, selectedType } = useSelector(
     (state: RootState) => state.types
@@ -18,6 +18,7 @@ const PokemonTypeGrid = () => {
   const handleTypeClick = useCallback(
     (type: string) => {
       dispatch(selectType(type));
+      if (onTypeSelect) onTypeSelect();
     },
     [dispatch]
   );
