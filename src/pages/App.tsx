@@ -9,6 +9,7 @@ import { RootState, AppDispatch } from "../redux/store";
 import LoadMoreButton from "../components/atoms/LoadMoreButton";
 import { Pokemon } from "../types/pokemon";
 import PokemonDetailsModal from "../components/molecules/PokemonDetailsModal";
+import PokemonTypeGrid from "../components/organisms/PokemonTypeGrid";
 
 const App: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -42,6 +43,7 @@ const App: React.FC = () => {
   return (
     <MainLayout>
       <SearchBar value={searchTerm} onChange={setSearchTerm} />
+      <PokemonTypeGrid />
       <PokemonGrid pokemons={list} onPokemonClick={handlePokemonClick} />
       {hasMore && (
         <LoadMoreButton handleLoadMore={handleLoadMore} loading={loading} />

@@ -26,9 +26,16 @@ export const getPokemonDetails = async (
   }
 };
 
-export const getPokemonsByType = async (
-  type: string
-): Promise<any> => {
+export const getPokemonTypes = async (): Promise<any> => {
+  try {
+    const response = await axiosClient.get<any>(`type`);
+    return response as unknown as any;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getPokemonsByType = async (type: string): Promise<any> => {
   try {
     const response = await axiosClient.get<any>(`type/${type}`);
     return response as unknown as any;
